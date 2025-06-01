@@ -1,0 +1,1202 @@
+{
+  "info": {
+    "_postman_id": "e9b01b5e-8d2d-4f17-a1bd-b9cf3e8df6d3",
+    "name": "BudgetMaster API",
+    "description": "Colección para interactuar con la API de BudgetMaster",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Operaciones relacionadas con autenticación",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"usuario\",\n    \"password\": \"contraseña123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "login"]
+            },
+            "description": "Inicia sesión y obtiene un token JWT"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.environment.set('token', jsonData.data.token);",
+                  "        console.log('Token guardado con éxito');",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"email\": \"usuario@ejemplo.com\",\n    \"password\": \"contraseña123\",\n    \"confirmPassword\": \"contraseña123\",\n    \"firstName\": \"Nombre\",\n    \"lastName\": \"Apellido\",\n    \"documentType\": 1,\n    \"documentNumber\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "register"]
+            },
+            "description": "Registra un nuevo usuario en el sistema"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ExpenseTypes",
+      "description": "Operaciones relacionadas con tipos de gastos",
+      "item": [
+        {
+          "name": "Get All ExpenseTypes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseTypes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseTypes"]
+            },
+            "description": "Obtiene todos los tipos de gastos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get ExpenseType by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseTypes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseTypes", "1"]
+            },
+            "description": "Obtiene un tipo de gasto por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ExpenseType",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Nuevo tipo de gasto\",\n    \"description\": \"Descripción del nuevo tipo de gasto\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseTypes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseTypes"]
+            },
+            "description": "Crea un nuevo tipo de gasto"
+          },
+          "response": []
+        },
+        {
+          "name": "Update ExpenseType",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Tipo de gasto actualizado\",\n    \"description\": \"Descripción actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseTypes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseTypes", "1"]
+            },
+            "description": "Actualiza un tipo de gasto existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete ExpenseType",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseTypes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseTypes", "1"]
+            },
+            "description": "Elimina un tipo de gasto"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "MonetaryFunds",
+      "description": "Operaciones relacionadas con fondos monetarios",
+      "item": [
+        {
+          "name": "Get All MonetaryFunds",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds"]
+            },
+            "description": "Obtiene todos los fondos monetarios"
+          },
+          "response": []
+        },
+        {
+          "name": "Get MonetaryFund by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds", "1"]
+            },
+            "description": "Obtiene un fondo monetario por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get MonetaryFund Balance",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds/1/balance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds", "1", "balance"]
+            },
+            "description": "Obtiene el balance de un fondo monetario"
+          },
+          "response": []
+        },
+        {
+          "name": "Create MonetaryFund",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Nuevo fondo monetario\",\n    \"description\": \"Descripción del nuevo fondo\",\n    \"initialBalance\": 1000,\n    \"userId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds"]
+            },
+            "description": "Crea un nuevo fondo monetario"
+          },
+          "response": []
+        },
+        {
+          "name": "Update MonetaryFund",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Fondo actualizado\",\n    \"description\": \"Descripción actualizada\",\n    \"initialBalance\": 1500\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds", "1"]
+            },
+            "description": "Actualiza un fondo monetario existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete MonetaryFund",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/MonetaryFunds/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "MonetaryFunds", "1"]
+            },
+            "description": "Elimina un fondo monetario"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Budgets",
+      "description": "Operaciones relacionadas con presupuestos",
+      "item": [
+        {
+          "name": "Get All Budgets",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets"]
+            },
+            "description": "Obtiene todos los presupuestos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Budgets by User, Month and Year",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets?userId=1&month=6&year=2023",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "month",
+                  "value": "6"
+                },
+                {
+                  "key": "year",
+                  "value": "2023"
+                }
+              ]
+            },
+            "description": "Obtiene presupuestos por usuario, mes y año"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Budget by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets", "1"]
+            },
+            "description": "Obtiene un presupuesto por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Budget",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": 1,\n    \"expenseTypeId\": 1,\n    \"amount\": 5000,\n    \"startDate\": \"2023-06-01T00:00:00\",\n    \"endDate\": \"2023-06-30T23:59:59\",\n    \"description\": \"Presupuesto mensual para alimentación\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets"]
+            },
+            "description": "Crea un nuevo presupuesto"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Budget",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 5500,\n    \"description\": \"Presupuesto mensual para alimentación actualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets", "1"]
+            },
+            "description": "Actualiza un presupuesto existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Budget",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Budgets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Budgets", "1"]
+            },
+            "description": "Elimina un presupuesto"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ExpenseRecords",
+      "description": "Operaciones relacionadas con registros de gastos",
+      "item": [
+        {
+          "name": "Get All ExpenseRecords",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords"]
+            },
+            "description": "Obtiene todos los registros de gastos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get ExpenseRecords by User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords?userId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Obtiene registros de gastos por usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Get ExpenseRecords by Period",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords?startDate=2023-06-01T00:00:00&endDate=2023-06-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2023-06-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2023-06-30T23:59:59"
+                }
+              ]
+            },
+            "description": "Obtiene registros de gastos por período"
+          },
+          "response": []
+        },
+        {
+          "name": "Get ExpenseRecord by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords", "1"]
+            },
+            "description": "Obtiene un registro de gasto por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get ExpenseRecord Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords/1/details",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords", "1", "details"]
+            },
+            "description": "Obtiene los detalles de un registro de gasto"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ExpenseRecord",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": 1,\n    \"expenseTypeId\": 1,\n    \"monetaryFundId\": 1,\n    \"amount\": 150.75,\n    \"date\": \"2023-06-15T14:30:00\",\n    \"description\": \"Compra en supermercado\",\n    \"details\": [\n        {\n            \"description\": \"Frutas y verduras\",\n            \"amount\": 50.25\n        },\n        {\n            \"description\": \"Carnes\",\n            \"amount\": 100.50\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords"]
+            },
+            "description": "Crea un nuevo registro de gasto"
+          },
+          "response": []
+        },
+        {
+          "name": "Update ExpenseRecord",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"expenseTypeId\": 1,\n    \"amount\": 160.00,\n    \"date\": \"2023-06-15T14:30:00\",\n    \"description\": \"Compra en supermercado actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords", "1"]
+            },
+            "description": "Actualiza un registro de gasto existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete ExpenseRecord",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ExpenseRecords/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ExpenseRecords", "1"]
+            },
+            "description": "Elimina un registro de gasto"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Deposits",
+      "description": "Operaciones relacionadas con depósitos",
+      "item": [
+        {
+          "name": "Get All Deposits",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits"]
+            },
+            "description": "Obtiene todos los depósitos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Deposits by User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits?userId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Obtiene depósitos por usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Deposits by Period",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits?startDate=2023-06-01T00:00:00&endDate=2023-06-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2023-06-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2023-06-30T23:59:59"
+                }
+              ]
+            },
+            "description": "Obtiene depósitos por período"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Deposit by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits", "1"]
+            },
+            "description": "Obtiene un depósito por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Deposit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": 1,\n    \"monetaryFundId\": 1,\n    \"amount\": 2000.00,\n    \"date\": \"2023-06-01T10:00:00\",\n    \"description\": \"Depósito de salario mensual\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits"]
+            },
+            "description": "Crea un nuevo depósito"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Deposit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 2100.00,\n    \"date\": \"2023-06-01T10:00:00\",\n    \"description\": \"Depósito de salario mensual actualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits", "1"]
+            },
+            "description": "Actualiza un depósito existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Deposit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Deposits/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Deposits", "1"]
+            },
+            "description": "Elimina un depósito"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "description": "Operaciones relacionadas con informes",
+      "item": [
+        {
+          "name": "Get Budget vs Execution Report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reports/budget-vs-execution?userId=1&month=6&year=2023",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Reports", "budget-vs-execution"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "month",
+                  "value": "6"
+                },
+                {
+                  "key": "year",
+                  "value": "2023"
+                }
+              ]
+            },
+            "description": "Obtiene un informe de presupuesto vs ejecución"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Summary Report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reports/expense-summary?userId=1&startDate=2023-06-01T00:00:00&endDate=2023-06-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Reports", "expense-summary"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2023-06-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2023-06-30T23:59:59"
+                }
+              ]
+            },
+            "description": "Obtiene un resumen de gastos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Monthly Summary",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reports/monthly-summary?userId=1&month=6&year=2023",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Reports", "monthly-summary"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "month",
+                  "value": "6"
+                },
+                {
+                  "key": "year",
+                  "value": "2023"
+                }
+              ]
+            },
+            "description": "Obtiene un resumen mensual"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Movements",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reports/movements?userId=1&startDate=2023-06-01T00:00:00&endDate=2023-06-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Reports", "movements"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2023-06-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2023-06-30T23:59:59"
+                }
+              ]
+            },
+            "description": "Obtiene los movimientos de un período"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Verificar si el token existe y no está vencido",
+          "if (!pm.environment.get('token')) {",
+          "    console.log(\"No hay token disponible. Se debe autenticar primero.\");",
+          "}"
+        ]
+      }
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  }
+}
