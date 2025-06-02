@@ -409,3 +409,132 @@ packages/
 # Temporary files
 *.tmp
 *.temp
+
+# ===================================
+# ANGULAR 18 + PRIMENG ADDITIONS
+# ===================================
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular build output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Angular cache
+.angular/
+
+# IDEs and editors
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# IDE - WebStorm/IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Miscellaneous
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Angular specific
+.angular-cli.json
+angular.json.bak
+package-lock.json
+yarn.lock
+
+# Environment files (Angular specific)
+environment.ts
+environment.prod.ts
+environment.local.ts
+src/environments/environment.local.ts
+src/environments/environment.prod.ts
+
+# Testing
+/coverage/
+*.lcov
+karma.conf.js.bak
+protractor.conf.js.bak
+
+# E2E testing
+e2e/*.js
+e2e/*.map
+
+# Compodoc
+documentation/
+
+# Angular Universal
+dist-server/
+
+# Firebase
+.firebase/
+.firebaserc
+firebase.json
+
+# SASS/SCSS cache
+.sass-cache/
+*.css.map
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# PrimeNG specific
+# Custom theme files (keep these commented if you want to track your custom themes)
+# src/assets/themes/custom/
+# src/styles/primeng-custom.scss
+
+# Generated documentation
+docs/
+
+# Storybook build outputs
+storybook-static/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Jest
+jest.config.js.bak
+
+# Angular DevKit
+.angular-devkit/
