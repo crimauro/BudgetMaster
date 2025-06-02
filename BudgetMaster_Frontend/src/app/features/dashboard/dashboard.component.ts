@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -19,9 +19,8 @@ import { AuthService } from '../../core/services/auth.service';
         </div>
 
         <nav class="sidebar-nav">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="#" class="nav-link active" (click)="navigateTo('/dashboard')">
+          <ul class="nav-list">            <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url === '/dashboard'" (click)="navigateTo('/dashboard')" style="cursor: pointer;">
                 <i class="icon-dashboard"></i>
                 <span *ngIf="!sidebarCollapsed">Dashboard</span>
               </a>
@@ -29,24 +28,20 @@ import { AuthService } from '../../core/services/auth.service';
             
             <li class="nav-section" *ngIf="!sidebarCollapsed">
               <span class="section-title">Mantenimientos</span>
-            </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/expense-types')">
+            </li>            <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/expense-types')" (click)="navigateTo('/expense-types')" style="cursor: pointer;">
                 <i class="icon-category"></i>
                 <span *ngIf="!sidebarCollapsed">Tipos de Gasto</span>
               </a>
             </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/monetary-funds')">
+              <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/monetary-funds')" (click)="navigateTo('/monetary-funds')" style="cursor: pointer;">
                 <i class="icon-wallet"></i>
                 <span *ngIf="!sidebarCollapsed">Fondos Monetarios</span>
               </a>
             </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/budgets')">
+              <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/budgets')" (click)="navigateTo('/budgets')" style="cursor: pointer;">
                 <i class="icon-budget"></i>
                 <span *ngIf="!sidebarCollapsed">Presupuestos</span>
               </a>
@@ -54,17 +49,14 @@ import { AuthService } from '../../core/services/auth.service';
             
             <li class="nav-section" *ngIf="!sidebarCollapsed">
               <span class="section-title">Movimientos</span>
-            </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/expense-records')">
+            </li>              <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/expense-records')" (click)="navigateTo('/expense-records')" style="cursor: pointer;">
                 <i class="icon-expense"></i>
                 <span *ngIf="!sidebarCollapsed">Gastos</span>
               </a>
             </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/deposits')">
+              <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/deposits')" (click)="navigateTo('/deposits')" style="cursor: pointer;">
                 <i class="icon-deposit"></i>
                 <span *ngIf="!sidebarCollapsed">Depósitos</span>
               </a>
@@ -72,10 +64,8 @@ import { AuthService } from '../../core/services/auth.service';
             
             <li class="nav-section" *ngIf="!sidebarCollapsed">
               <span class="section-title">Reportes</span>
-            </li>
-            
-            <li class="nav-item">
-              <a href="#" class="nav-link" (click)="navigateTo('/reports')">
+            </li>              <li class="nav-item">
+              <a class="nav-link" [class.active]="router.url.startsWith('/reports')" (click)="navigateTo('/reports')" style="cursor: pointer;">
                 <i class="icon-reports"></i>
                 <span *ngIf="!sidebarCollapsed">Reportes</span>
               </a>
@@ -111,105 +101,9 @@ import { AuthService } from '../../core/services/auth.service';
               </div>
             </div>
           </div>
-        </header>
-
-        <div class="content-area">
-          <router-outlet></router-outlet>
-          
-          <!-- Dashboard Home Content -->
-          <div class="dashboard-home" *ngIf="showDashboardHome">
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-icon expense">
-                  <i class="icon-expense"></i>
-                </div>
-                <div class="stat-content">
-                  <h3>Gastos del Mes</h3>
-                  <p class="stat-value">$1,250.00</p>
-                  <span class="stat-change negative">+12.5%</span>
-                </div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-icon income">
-                  <i class="icon-deposit"></i>
-                </div>
-                <div class="stat-content">
-                  <h3>Ingresos del Mes</h3>
-                  <p class="stat-value">$3,500.00</p>
-                  <span class="stat-change positive">+8.2%</span>
-                </div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-icon balance">
-                  <i class="icon-wallet"></i>
-                </div>
-                <div class="stat-content">
-                  <h3>Balance Total</h3>
-                  <p class="stat-value">$2,250.00</p>
-                  <span class="stat-change positive">+15.8%</span>
-                </div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-icon budget">
-                  <i class="icon-budget"></i>
-                </div>
-                <div class="stat-content">
-                  <h3>Presupuesto Restante</h3>
-                  <p class="stat-value">$750.00</p>
-                  <span class="stat-change neutral">-5.2%</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="dashboard-grid">
-              <div class="dashboard-card">
-                <h3>Resumen de Gastos</h3>
-                <div class="chart-placeholder">
-                  <p>Gráfico de gastos por categoría</p>
-                  <small>Próximamente con Chart.js</small>
-                </div>
-              </div>
-              
-              <div class="dashboard-card">
-                <h3>Últimos Movimientos</h3>
-                <div class="recent-transactions">
-                  <div class="transaction-item">
-                    <div class="transaction-icon expense">
-                      <i class="icon-expense"></i>
-                    </div>
-                    <div class="transaction-details">
-                      <span class="transaction-description">Supermercado</span>
-                      <span class="transaction-date">Hoy</span>
-                    </div>
-                    <span class="transaction-amount negative">-$85.50</span>
-                  </div>
-                  <div class="transaction-item">
-                    <div class="transaction-icon deposit">
-                      <i class="icon-deposit"></i>
-                    </div>
-                    <div class="transaction-details">
-                      <span class="transaction-description">Salario</span>
-                      <span class="transaction-date">Ayer</span>
-                    </div>
-                    <span class="transaction-amount positive">+$2,500.00</span>
-                  </div>
-                  <div class="transaction-item">
-                    <div class="transaction-icon expense">
-                      <i class="icon-expense"></i>
-                    </div>
-                    <div class="transaction-details">
-                      <span class="transaction-description">Gasolina</span>
-                      <span class="transaction-date">2 días</span>
-                    </div>
-                    <span class="transaction-amount negative">-$45.00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </header>        <div class="content-area">
+          <!-- Router Outlet para componentes anidados -->
+          <router-outlet (activate)="onOutletActivated($event)"></router-outlet>
         </div>
       </main>
     </div>
@@ -627,48 +521,58 @@ import { AuthService } from '../../core/services/auth.service';
     }
   `]
 })
-export class DashboardComponent implements OnInit {
-  sidebarCollapsed = false;
+export class DashboardComponent implements OnInit {  sidebarCollapsed = false;
   pageTitle = 'Dashboard';
   currentUser: any;
-  showDashboardHome = true;
-
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit() {
+    public router: Router  // Cambiado a público para poder acceder desde la plantilla
+  ) {}  ngOnInit() {
     this.currentUser = this.authService.getCurrentUser();
+    
+    // Escuchar cambios en la ruta para actualizar el título
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const currentUrl = this.router.url;
+        console.log('Navegación completada:', currentUrl);
+        
+        // Update page title based on route
+        const titles: { [key: string]: string } = {
+          '/dashboard': 'Dashboard',
+          '/expense-types': 'Tipos de Gasto',
+          '/monetary-funds': 'Fondos Monetarios',
+          '/budgets': 'Presupuestos',
+          '/expense-records': 'Gastos',
+          '/deposits': 'Depósitos',
+          '/reports': 'Reportes'
+        };
+        
+        // Buscar coincidencia incluso para rutas secundarias como /expense-types/create
+        const matchingRoute = Object.keys(titles).find(route => 
+          currentUrl === route || currentUrl.startsWith(route + '/'));
+        
+        this.pageTitle = matchingRoute ? titles[matchingRoute] : 'Dashboard';
+        console.log('Título de página actualizado a:', this.pageTitle);
+      }
+    });
   }
 
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;
-  }
-
-  navigateTo(route: string) {
-    this.showDashboardHome = route === '/dashboard';
-    
-    if (route !== '/dashboard') {
-      this.router.navigate([route]);
+  }  navigateTo(route: string) {
+    // Evitar recargar la misma ruta
+    if (this.router.url !== route) {
+      // Navegar a la ruta especificada usando URL absoluta
+      this.router.navigateByUrl(route);
+      console.log(`Navegando a ${route}`);
     }
-    
-    // Update page title based on route
-    const titles: { [key: string]: string } = {
-      '/dashboard': 'Dashboard',
-      '/expense-types': 'Tipos de Gasto',
-      '/monetary-funds': 'Fondos Monetarios',
-      '/budgets': 'Presupuestos',
-      '/expense-records': 'Gastos',
-      '/deposits': 'Depósitos',
-      '/reports': 'Reportes'
-    };
-    
-    this.pageTitle = titles[route] || 'Dashboard';
   }
-
   logout() {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
+  }
+
+  onOutletActivated(component: any) {
+    console.log('Componente activado en el router-outlet:', component.constructor.name);
   }
 }

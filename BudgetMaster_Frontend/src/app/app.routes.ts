@@ -12,39 +12,44 @@ export const routes: Routes = [
     loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes)
   },
   {
-    path: 'dashboard',
+    path: '',
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'expense-types',
-    loadChildren: () => import('./features/expense-types/expense-types.routes').then(m => m.expenseTypesRoutes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'monetary-funds',
-    loadChildren: () => import('./features/monetary-funds/monetary-funds.routes').then(m => m.monetaryFundsRoutes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'budgets',
-    loadChildren: () => import('./features/budgets/budgets.routes').then(m => m.budgetsRoutes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'expense-records',
-    loadChildren: () => import('./features/expense-records/expense-records.routes').then(m => m.expenseRecordsRoutes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'deposits',
-    loadChildren: () => import('./features/deposits/deposits.routes').then(m => m.depositsRoutes),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'reports',
-    loadChildren: () => import('./features/reports/reports.routes').then(m => m.reportsRoutes),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent)
+      },
+      {
+        path: 'expense-types',
+        loadChildren: () => import('./features/expense-types/expense-types.routes').then(m => m.expenseTypesRoutes)
+      },
+      {
+        path: 'monetary-funds',
+        loadChildren: () => import('./features/monetary-funds/monetary-funds.routes').then(m => m.monetaryFundsRoutes)
+      },
+      {
+        path: 'budgets',
+        loadChildren: () => import('./features/budgets/budgets.routes').then(m => m.budgetsRoutes)
+      },
+      {
+        path: 'expense-records',
+        loadChildren: () => import('./features/expense-records/expense-records.routes').then(m => m.expenseRecordsRoutes)
+      },
+      {
+        path: 'deposits',
+        loadChildren: () => import('./features/deposits/deposits.routes').then(m => m.depositsRoutes)
+      },
+      {
+        path: 'reports',
+        loadChildren: () => import('./features/reports/reports.routes').then(m => m.reportsRoutes)
+      }
+    ]
   },
   {
     path: '**',

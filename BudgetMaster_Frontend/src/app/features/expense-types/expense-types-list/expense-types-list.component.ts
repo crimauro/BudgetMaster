@@ -691,8 +691,8 @@ export class ExpenseTypesListComponent implements OnInit {
       isActive: [true]
     });
   }
-
   ngOnInit() {
+    console.log('ExpenseTypesListComponent inicializado');
     this.loadExpenseTypes();
   }
 

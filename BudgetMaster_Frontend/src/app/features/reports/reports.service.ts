@@ -31,26 +31,19 @@ export class ReportsService {
       `${this.apiUrl}/expense-summary/${userId}?startDate=${startDate}&endDate=${endDate}`
     );
   }
-
   // Movimientos (Gastos y Depósitos)
   getMovements(userId: number, startDate?: string, endDate?: string): Observable<ApiResponse<MovementDto[]>> {
-    let url = `${this.apiUrl}/movements/${userId}`;
-    const params = [];
+    let url = `${this.apiUrl}/movements?userId=${userId}`;
     
-    if (startDate) params.push(`startDate=${startDate}`);
-    if (endDate) params.push(`endDate=${endDate}`);
-    
-    if (params.length > 0) {
-      url += `?${params.join('&')}`;
-    }
+    if (startDate) url += `&startDate=${startDate}`;
+    if (endDate) url += `&endDate=${endDate}`;
     
     return this.http.get<ApiResponse<MovementDto[]>>(url);
   }
-
   // Resumen Financiero Mensual
   getMonthlyFinancialSummary(userId: number, month: number, year: number): Observable<ApiResponse<MonthlyFinancialSummary>> {
     return this.http.get<ApiResponse<MonthlyFinancialSummary>>(
-      `${this.apiUrl}/monthly-summary/${userId}/${month}/${year}`
+      `${this.apiUrl}/monthly-summary?userId=${userId}&month=${month}&year=${year}`
     );
   }
 
