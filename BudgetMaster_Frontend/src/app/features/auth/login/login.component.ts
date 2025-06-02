@@ -241,9 +241,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.isAuthenticated()) {
         this.router.navigate(['/dashboard']);
       }
-    }
-
-    onSubmit() {
+    }    onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
@@ -251,8 +249,10 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.isLoading = false;
-          if (response.isSuccess) {
-            console.log('Login exitoso, token recibido:', !!response.data?.token);
+          console.log('Login response:', response);
+          
+          if (response.isSuccess && response.data) {
+            console.log('Login exitoso, token recibido:', !!response.data.token);
             this.router.navigate(['/dashboard']);
           } else {
             this.errorMessage = response.message || 'Error en el inicio de sesión';

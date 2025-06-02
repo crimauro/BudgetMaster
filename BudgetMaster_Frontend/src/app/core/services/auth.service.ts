@@ -17,12 +17,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.initializeAuthState();
-  }
-
-  login(loginRequest: LoginRequest): Observable<ApiResponse<AuthResponse>> {
+  }  login(loginRequest: LoginRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/api/Auth/login`, loginRequest)
       .pipe(
         tap(response => {
+          console.log('Login response:', response);
           if (response.isSuccess && response.data) {
             this.setSession(response.data);
           }
@@ -33,7 +32,6 @@ export class AuthService {
   register(registerRequest: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/api/Auth/register`, registerRequest);
   }
-
   logout(): void {
     console.log('Manual logout called');
     this.clearSession();
@@ -160,23 +158,33 @@ export class AuthService {
       return false;
     }
   }
-
   /**
    * Establece la sesión del usuario después del login
-   */
-  private setSession(authResponse: AuthResponse): void {
+   */  private setSession(authResponse: AuthResponse): void {
     console.log('AuthService: Setting user session');
     
     // Verificar que los datos sean válidos antes de guardar
-    if (!authResponse.token || !authResponse.user) {
-      console.error('AuthService: Invalid auth response', authResponse);
+    if (!authResponse.token) {
+      console.error('AuthService: Invalid auth response - no token', authResponse);
       return;
     }
     
     try {
       localStorage.setItem('token', authResponse.token);
-      localStorage.setItem('user', JSON.stringify(authResponse.user));
-      this.currentUserSubject.next(authResponse.user);
+      
+      // Decodificar el token para obtener el ID del usuario u otra información
+      const tokenPayload = this.getDecodedToken(authResponse.token);
+      console.log('Token payload:', tokenPayload);
+        // Crear objeto de usuario basado en los campos individuales de la respuesta
+      const user: User = {
+        id: tokenPayload?.userId ? Number(tokenPayload.userId) : 0, // Asegurar que siempre sea un número
+        username: authResponse.username,
+        email: authResponse.email || '',
+        fullName: authResponse.fullName
+      };
+      
+      localStorage.setItem('user', JSON.stringify(user));
+      this.currentUserSubject.next(user);
       console.log('AuthService: Session set successfully');
     } catch (error) {
       console.error('AuthService: Error setting session:', error);
@@ -203,7 +211,6 @@ export class AuthService {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
-
   /**
    * Método para verificar el estado del token sin side effects
    * Útil para debugging
@@ -222,6 +229,28 @@ export class AuthService {
       };
     } catch (error) {
       return { error: 'Invalid token format' };
+    }
+  }
+
+  /**
+   * Decodifica un token JWT para obtener su payload
+   */
+  private getDecodedToken(token: string): any {
+    if (!token) return null;
+    
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.warn('AuthService: Invalid token format');
+        return null;
+      }
+
+      // Decodificar payload
+      const payload = JSON.parse(atob(parts[1]));
+      return payload;
+    } catch (error) {
+      console.error('AuthService: Error decoding token:', error);
+      return null;
     }
   }
 }

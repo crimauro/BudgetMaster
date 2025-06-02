@@ -10,14 +10,14 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   
   // Obtener el token del servicio de autenticación
   const token = authService.getToken();
-  
-  // Si hay un token, añadirlo a los headers
-  if (token && authService.isAuthenticated()) {
+    // Si hay un token y el servicio está inicializado, añadirlo a los headers
+  if (token && authService.isServiceInitialized() && authService.isAuthenticated()) {
     req = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
+    console.log('AuthInterceptor: Added token to request', req.url);
   }
   
   // Procesar la petición y manejar errores de autenticación

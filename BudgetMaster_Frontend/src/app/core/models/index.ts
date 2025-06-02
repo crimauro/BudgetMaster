@@ -31,17 +31,19 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
+  isSuccess: boolean;
+  message: string;
   token: string;
-  user: User;
+  username: string;
+  email?: string;
+  fullName?: string;
 }
 
-export interface User extends BaseEntity {
+export interface User {
+  id: number;  // Cambiado de id? a id para que sea obligatorio
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  documentType: number;
-  documentNumber: string;
+  fullName?: string;
 }
 
 // ExpenseType models
